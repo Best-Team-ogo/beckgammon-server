@@ -27,6 +27,26 @@ namespace TalkBackServer.Tools
             return writer.ToArray();
         }
 
+        internal static byte[] SendMessageToChatRoom(string msg)
+        {
+           
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.SEND_MESSAGE_TO_CHATROOM);
+            writer.WriteCommonString(msg);
+            writer.WriteCommonString(DateTime.Now.ToLongDateString());
+            return writer.ToArray();
+        }
+
+        internal static byte[] SendChatRoomMember(int action, string nickName)
+        {
+            // action : 1 is add to list, 2 is remove from list
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.UPDATE_USERS);
+            writer.WriteByte(action);
+            writer.WriteCommonString(nickName);
+            return writer.ToArray();
+        }
+
         internal static byte[] SendAllAvilableUsers(string name)
         {
             PacketWriter writer = new PacketWriter();
@@ -85,7 +105,12 @@ namespace TalkBackServer.Tools
 
         internal static byte[] AcceptedChatRequest(int chatId)
         {
-            throw new NotImplementedException();
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.CHAT_REQUEST);
+            writer.WriteByte(2);  // case 2 == request ans
+            writer.WriteBool(false);
+            writer.WriteInt(chatId);
+            return writer.ToArray();
         }
 
     }

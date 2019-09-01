@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using TalkBackServer.DataMembers;
 
 namespace TalkBackServer.ClientSection
 {
@@ -13,6 +14,7 @@ namespace TalkBackServer.ClientSection
         public int ID { get; set; }     
         public string NickName { get; set; } = "";
         public bool Connected = false;
+        public List<ChatRoom> ChatRooms { get; set; } = new List<ChatRoom>();
         private static int _counter = 0;
         public Client(Socket socket)
         {

@@ -117,6 +117,7 @@
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\User.cs" />
+    <Compile Include="DataMembers\ChatRoom.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Handlers\LogoutHandler.cs" />
     <Compile Include="Handlers\RegisterHandler.cs" />

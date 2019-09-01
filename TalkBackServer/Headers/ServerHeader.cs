@@ -9,11 +9,13 @@ namespace TalkBackServer.Tools
     class ServerHeader
     {
         //User Headers
-        public static short LOGIN_RESPONSE = 1;
-        public static short REGISTER_RESPONSE = 2;
-        public static short UPDATE_USERS = 3;
-        public static short SEND_ALL_USERS = 4;
+        public const short LOGIN_RESPONSE = 1;
+        public const short REGISTER_RESPONSE = 2;
+        public const short UPDATE_USERS = 3;
+        public const short SEND_ALL_USERS = 4;
         //Chat Headers
-        public static short CHAT_REQUEST = 5;
+        public const short CHAT_REQUEST = 5;
+        public const short CHAT_MEMBERS_UPDATE = 6;
+        public const short SEND_MESSAGE_TO_CHATROOM = 7;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TalkBackServer.ClientSection;
+using TalkBackServer.DataMembers;
 using TalkBackServer.Tools;
 
 namespace TalkBackServer.Handlers
@@ -21,7 +22,7 @@ namespace TalkBackServer.Handlers
                 int chatId = rnd.Next(1000000);
                 var reciverC = ClientFactory.Instance.GetAllClients().FirstOrDefault
                     (x => x.NickName == reciverName);
-                //GetBla
+                
                 if (reciverC == null)
                 {
                     // if reciverName client is null, means there is an error and we need
@@ -38,16 +39,16 @@ namespace TalkBackServer.Handlers
             if (option == 1) // Got the request answer from the requested client
             {
                 bool ans = reader.ReadBool();
+                string sender = reader.ReadCommonString(); // who asked!
                 if (ans == false)
                 {
-                    // requested user decline
-                    string sender = reader.ReadCommonString(); // who asked!
+                    // requested user decline     
                     var senderC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.NickName == sender);
                     senderC.Announce(PacketCreator.DeclineChatRequest(client.NickName));
                 }
-                else if (ans == true)// requested user accepted
+                else if (ans == true)
                 {
-                    string sender = reader.ReadCommonString(); // who asked!
+                    // requested user accepted
                     int chatId = reader.ReadInt();
                     var senderC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.NickName == sender);
                     if (senderC == null)
@@ -57,8 +58,18 @@ namespace TalkBackServer.Handlers
                     }
                     else
                     {
-                        // We can Open a chat!!
-                        client.Announce(PacketCreator.AcceptedChatRequest(chatId));
+                        // We can Open a chat!! 
+                        var chatRoom = new ChatRoom {ID = chatId};
+                        chatRoom.Participents.Add(client);
+                        chatRoom.Participents.Add(senderC);
+
+                        client.ChatRooms.Add(chatRoom);
+                        senderC.ChatRooms.Add(chatRoom);
+
+                        chatRoom.Participents.ForEach(
+                            x => x.ChatRooms.FirstOrDefault(
+                            y => y == chatRoom)
+                            .DisplyAllParticipends(x));
                         senderC.Announce(PacketCreator.AcceptedChatRequest(chatId));
                     }
 
