@@ -59,6 +59,7 @@ namespace TalkBackServer.Handlers
                     else
                     {
                         // We can Open a chat!! 
+                        senderC.Announce(PacketCreator.AcceptedChatRequest(chatId));
                         var chatRoom = new ChatRoom {ID = chatId};
                         chatRoom.Participents.Add(client);
                         chatRoom.Participents.Add(senderC);
@@ -70,7 +71,7 @@ namespace TalkBackServer.Handlers
                             x => x.ChatRooms.FirstOrDefault(
                             y => y == chatRoom)
                             .DisplyAllParticipends(x));
-                        senderC.Announce(PacketCreator.AcceptedChatRequest(chatId));
+                        
                     }
 
                 }
