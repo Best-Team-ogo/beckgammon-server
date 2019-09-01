@@ -14,12 +14,12 @@ namespace TalkBackServer.Handlers
         {
             string username = reader.ReadCommonString();
             string pass = reader.ReadCommonString();
-            
-            if (await Database.DatabaseManager.Instance.GetUser(username, pass))
+            var User = await Database.DatabaseManager.Instance.GetUser(username, pass);
+            if (User != null)
             {
                 
                 // UPON Sucess - 1
-                if (client.Login(username, pass))
+                if (client.CheckForLogin(User.name))
                 {
                     client.Announce(PacketCreator.LoginRespose(1)); //Announce to the client to login
                     client.Announce(PacketCreator.SendAllAvilableUsers(client.NickName));

@@ -12,7 +12,16 @@ namespace TalkBackServer.Handlers
     {
         public void handlePacket(PacketReader reader, Client client)
         {
-           
+            ClientFactory.Instance.RemoveClient(client);
+            client.Logout();
+            if (!string.IsNullOrEmpty(client.NickName))
+            {
+
+                foreach (var c in ClientFactory.Instance.GetAllClients().Where(x => x != client))
+                {
+                    c.Announce(PacketCreator.SendUserUpdate(client.NickName, 2));
+                }
+            }
         }
     }
 }

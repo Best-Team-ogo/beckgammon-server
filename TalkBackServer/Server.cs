@@ -85,6 +85,7 @@ namespace TalkBackServer
                         session.Shutdown(SocketShutdown.Both);
 
                         Console.WriteLine(session.RemoteEndPoint + " Has been disconnected");
+                        client.Logout();
                         if (!string.IsNullOrEmpty(client.NickName))
                         {
 

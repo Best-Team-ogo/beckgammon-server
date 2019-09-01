@@ -17,13 +17,13 @@ namespace TalkBackServer.Tools
             writer.WriteByte(res);
             return writer.ToArray();
         }
-        public static byte[] SendUserUpdate(string name,byte action)
+        public static byte[] SendUserUpdate(string nickName,byte action)
         {
             // action : 1 is add to list, 2 is remove from list
             PacketWriter writer = new PacketWriter();
             writer.WriteShort(ServerHeader.UPDATE_USERS);
             writer.WriteByte(action);
-            writer.WriteCommonString(name);
+            writer.WriteCommonString(nickName);
             return writer.ToArray();
         }
 

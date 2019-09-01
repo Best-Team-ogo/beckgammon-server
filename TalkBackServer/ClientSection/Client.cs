@@ -10,10 +10,8 @@ namespace TalkBackServer.ClientSection
     class Client
     {
         public Socket Session { get; set; }
-        public int ID { get; set; }
-      
+        public int ID { get; set; }     
         public string NickName { get; set; } = "";
-        public string Password { get; set; } = "";
         public bool Connected = false;
         private static int _counter = 0;
         public Client(Socket socket)
@@ -23,20 +21,18 @@ namespace TalkBackServer.ClientSection
             _counter++;
 
         }
-        public bool Login(string name, string pass)
+        public bool CheckForLogin(string nickName)
         {
-            var tmpC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.NickName == name);
+            var tmpC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.NickName == nickName);
             if (tmpC != null)
                 return false;
-            NickName = name;
-            Password = pass;
+            NickName = nickName;
             Connected = true;
             return true;
         }
         public void Logout()
         {
             NickName = "";
-            Password = "";
             Connected = false;
 
         }
