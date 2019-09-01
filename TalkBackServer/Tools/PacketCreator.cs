@@ -41,7 +41,7 @@ namespace TalkBackServer.Tools
         {
             // action : 1 is add to list, 2 is remove from list
             PacketWriter writer = new PacketWriter();
-            writer.WriteShort(ServerHeader.UPDATE_USERS);
+            writer.WriteShort(ServerHeader.CHAT_MEMBERS_UPDATE);
             writer.WriteByte(action);
             writer.WriteCommonString(nickName);
             return writer.ToArray();
