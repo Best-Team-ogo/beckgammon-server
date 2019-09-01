@@ -31,13 +31,13 @@ namespace TalkBackServer.Tools
         {
             PacketWriter writer = new PacketWriter();
             writer.WriteShort(ServerHeader.SEND_ALL_USERS);
-            var users = ClientFactory.Instance.GetAllClients().Where(x => x.Name != name).ToList();
+            var users = ClientFactory.Instance.GetAllClients().Where(x => x.NickName != name).ToList();
             int amount = users.Count;
             writer.WriteInt(amount); // The amount of clients online
 
             for (int i = 0; i < amount; i++)
             {
-                writer.WriteCommonString(users[i].Name);
+                writer.WriteCommonString(users[i].NickName);
             }
             return writer.ToArray();
         }
@@ -50,5 +50,43 @@ namespace TalkBackServer.Tools
             writer.WriteByte(succ ? 1 : 0);
             return writer.ToArray();
         }
+
+        internal static byte[] SendChatRequest(int chatId, string senderName)
+        {
+            // Sends a request to the other client client to open a chat room from
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.CHAT_REQUEST);
+            writer.WriteByte(1);  // case 1 == send request
+            writer.WriteInt(chatId);
+            writer.WriteCommonString(senderName);
+            return writer.ToArray();
+        }
+
+        internal static byte[] DeclineChatRequest(string name)
+        {
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.CHAT_REQUEST);
+            writer.WriteByte(1);  // case 2 == request ans
+            writer.WriteBool(false);
+            writer.WriteCommonString(name);
+            return writer.ToArray();
+
+        }
+
+        internal static byte[] NoClientChatRequest(string name)
+        {
+            // Error that occur if no client was found in chat request
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.CHAT_REQUEST);
+            writer.WriteByte(0);  // case 0 == error
+            writer.WriteCommonString(name);
+            return writer.ToArray();
+        }
+
+        internal static byte[] AcceptedChatRequest(int chatId)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

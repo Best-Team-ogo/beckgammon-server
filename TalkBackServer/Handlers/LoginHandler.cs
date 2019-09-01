@@ -14,6 +14,7 @@ namespace TalkBackServer.Handlers
         {
             string username = reader.ReadCommonString();
             string pass = reader.ReadCommonString();
+            
             if (await Database.DatabaseManager.Instance.GetUser(username, pass))
             {
                 
@@ -21,10 +22,10 @@ namespace TalkBackServer.Handlers
                 if (client.Login(username, pass))
                 {
                     client.Announce(PacketCreator.LoginRespose(1)); //Announce to the client to login
-                    client.Announce(PacketCreator.SendAllAvilableUsers(client.Name));
+                    client.Announce(PacketCreator.SendAllAvilableUsers(client.NickName));
                     foreach (var c in ClientFactory.Instance.GetAllClients().Where(x => x != client))
                     {
-                        c.Announce(PacketCreator.SendUserUpdate(client.Name, 1));
+                        c.Announce(PacketCreator.SendUserUpdate(client.NickName, 1));
                     }
                 }
                 else

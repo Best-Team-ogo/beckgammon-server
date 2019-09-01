@@ -41,7 +41,7 @@ namespace TalkBackServer
         {
             Socket clientSocket = (Socket)_server.EndAccept(ar);
             ClientFactory.Instance.AddClient(new Client(clientSocket));
-            Console.WriteLine($"Session with {clientSocket.RemoteEndPoint} Started");
+            Console.WriteLine($"Session with {clientSocket.RemoteEndPoint} has Started");
             BeginRecive(clientSocket);
             _server.BeginAccept(new AsyncCallback(OnClientAccpet), null);
 
@@ -66,8 +66,6 @@ namespace TalkBackServer
         {
             lock (locker)
             {
-
-
                 Socket session = (Socket)ar.AsyncState;
                 Client client = ClientFactory.Instance.GetClientBySession(session);
                 if (client == null)
@@ -79,7 +77,7 @@ namespace TalkBackServer
                 }
                 catch (Exception e)
                 {
-
+                    // Client has disconnected
                     if (client == null) Console.WriteLine($"Error occur {e.Message}");
                     else
                     {
@@ -87,12 +85,12 @@ namespace TalkBackServer
                         session.Shutdown(SocketShutdown.Both);
 
                         Console.WriteLine(session.RemoteEndPoint + " Has been disconnected");
-                        if (!string.IsNullOrEmpty(client.Name))
+                        if (!string.IsNullOrEmpty(client.NickName))
                         {
 
                             foreach (var c in ClientFactory.Instance.GetAllClients().Where(x => x != client))
                             {
-                                c.Announce(PacketCreator.SendUserUpdate(client.Name, 2));
+                                c.Announce(PacketCreator.SendUserUpdate(client.NickName, 2));
                             }
                         }
                         session = null;
@@ -108,7 +106,7 @@ namespace TalkBackServer
                     handler.handlePacket(reader, client);
                 else
                 {
-                    Console.WriteLine($"Error, No Such Header was found, Header {header}");
+                    Console.WriteLine($"Error, No Such Header was found, Header : {header}");
                 }
                 BeginRecive(session);
             }

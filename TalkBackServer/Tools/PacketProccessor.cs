@@ -15,17 +15,15 @@ namespace TalkBackServer.Tools
         {
             RegisterHandler(ClientHeaders.LOGIN, new LoginHandler());
             RegisterHandler(ClientHeaders.REGISTER, new RegisterHandler());
+            RegisterHandler(ClientHeaders.LOGOUT, new LogoutHandler());
+            RegisterHandler(ClientHeaders.CHAT_REQUEST, new RequestChatHandler());
+
             RegisterHandler(ClientHeaders.SEND_MESSAGE, new SendMessageHandler());
             
             
 
             return handlers.Count;
 
-        }
-
-        private static void RegisterHandler(object rEQUEST_CHAT, RequestChatHandler requestChatHandler)
-        {
-            throw new NotImplementedException();
         }
 
         public static PacketHandler GetHandler(short header)

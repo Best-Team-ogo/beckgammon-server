@@ -118,19 +118,20 @@
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\User.cs" />
     <Compile Include="Handlers\LoginHandler.cs" />
+    <Compile Include="Handlers\LogoutHandler.cs" />
     <Compile Include="Handlers\RegisterHandler.cs" />
     <Compile Include="Handlers\RequestChatHandler.cs" />
     <Compile Include="Handlers\SendMessageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Tools\ClientHeaders.cs" />
+    <Compile Include="Headers\ClientHeaders.cs" />
     <Compile Include="Tools\PacketCreator.cs" />
     <Compile Include="Tools\PacketHandler.cs" />
     <Compile Include="Tools\PacketProccessor.cs" />
     <Compile Include="Tools\PacketReader.cs" />
     <Compile Include="Tools\PacketWriter.cs" />
-    <Compile Include="Tools\ServerHeader.cs" />
+    <Compile Include="Headers\ServerHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
