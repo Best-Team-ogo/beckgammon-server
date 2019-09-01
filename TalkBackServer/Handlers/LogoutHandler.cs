@@ -4,16 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TalkBackServer.ClientSection;
+using TalkBackServer.Database;
 using TalkBackServer.Tools;
 
 namespace TalkBackServer.Handlers
 {
     class LogoutHandler : PacketHandler
     {
-        public void handlePacket(PacketReader reader, Client client)
+        public async void handlePacket(PacketReader reader, Client client)
         {
             ClientFactory.Instance.RemoveClient(client);
             client.Logout();
+            await SendDisconnecToAllClients(client);
+        }
+
+        private static Task<User> SendDisconnecToAllClients(Client client)
+        {
             if (!string.IsNullOrEmpty(client.NickName))
             {
 
@@ -22,6 +28,7 @@ namespace TalkBackServer.Handlers
                     c.Announce(PacketCreator.SendUserUpdate(client.NickName, 2));
                 }
             }
+            return null;
         }
     }
 }

@@ -19,7 +19,8 @@ namespace TalkBackServer.Handlers
                 string senderName = client.NickName;
                 string reciverName = reader.ReadCommonString();
                 int chatId = rnd.Next(1000000);
-                var reciverC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.NickName == reciverName);
+                var reciverC = ClientFactory.Instance.GetAllClients().FirstOrDefault
+                    (x => x.NickName == reciverName);
                 if (reciverC == null)
                 {
                     // if reciverName client is null, means there is an error and we need

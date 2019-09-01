@@ -9,12 +9,12 @@ namespace TalkBackServer.Tools
     class ClientHeaders
     {
         //User Headers
-        public static readonly short LOGIN =        1;
-        public static readonly short REGISTER =     2;
-        public static readonly short LOGOUT =       3;
+        public const short LOGIN =        1;
+        public const short REGISTER =     2;
+        public const short LOGOUT =       3;
         //Chat Headers
-        public static readonly short CHAT_REQUEST = 4;
-        public static readonly short SEND_MESSAGE = 5;
+        public const short CHAT_REQUEST = 4;
+        public const short SEND_MESSAGE = 5;
 
 
     }

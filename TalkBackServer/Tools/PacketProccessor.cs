@@ -17,11 +17,8 @@ namespace TalkBackServer.Tools
             RegisterHandler(ClientHeaders.REGISTER, new RegisterHandler());
             RegisterHandler(ClientHeaders.LOGOUT, new LogoutHandler());
             RegisterHandler(ClientHeaders.CHAT_REQUEST, new RequestChatHandler());
-
             RegisterHandler(ClientHeaders.SEND_MESSAGE, new SendMessageHandler());
-            
-            
-
+           
             return handlers.Count;
 
         }
