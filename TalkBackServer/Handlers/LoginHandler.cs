@@ -12,18 +12,19 @@ namespace TalkBackServer.Handlers
     {
         public async void handlePacket(PacketReader reader, Client client)
         {
-            string name = reader.ReadCommonString();
+            string username = reader.ReadCommonString();
             string pass = reader.ReadCommonString();
-            if (await Database.DatabaseManager.Instance.GetUser(name,pass))
+            if (await Database.DatabaseManager.Instance.GetUser(username, pass))
             {
                 
                 // UPON Sucess - 1
-                if (client.Login(name, pass))
+                if (client.Login(username, pass))
                 {
-                    client.Announce(PacketCreator.LoginRespose(1));
+                    client.Announce(PacketCreator.LoginRespose(1)); //Announce to the client to login
+                    client.Announce(PacketCreator.SendAllAvilableUsers(client.Name));
                     foreach (var c in ClientFactory.Instance.GetAllClients().Where(x => x != client))
                     {
-                        c.Announce(PacketCreator.SendUserUpdate(c.ID,c.Name, 1));
+                        c.Announce(PacketCreator.SendUserUpdate(client.Name, 1));
                     }
                 }
                 else

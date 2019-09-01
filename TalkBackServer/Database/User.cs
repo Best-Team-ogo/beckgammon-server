@@ -10,6 +10,7 @@ namespace TalkBackServer.Database
     class User
     {
         public ObjectId _id { get; set; }
+        public string username { get; set; }
         public string name { get; set; }
         public string pass { get; set; }
     }

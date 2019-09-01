@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TalkBackServer.ClientSection;
 
 namespace TalkBackServer.Tools
 {
@@ -16,14 +17,28 @@ namespace TalkBackServer.Tools
             writer.WriteByte(res);
             return writer.ToArray();
         }
-        public static byte[] SendUserUpdate(int clientID,string name,byte action)
+        public static byte[] SendUserUpdate(string name,byte action)
         {
             // action : 1 is add to list, 2 is remove from list
             PacketWriter writer = new PacketWriter();
             writer.WriteShort(ServerHeader.UPDATE_USERS);
             writer.WriteByte(action);
-            writer.WriteInt(clientID);
             writer.WriteCommonString(name);
+            return writer.ToArray();
+        }
+
+        internal static byte[] SendAllAvilableUsers(string name)
+        {
+            PacketWriter writer = new PacketWriter();
+            writer.WriteShort(ServerHeader.SEND_ALL_USERS);
+            var users = ClientFactory.Instance.GetAllClients().Where(x => x.Name != name).ToList();
+            int amount = users.Count;
+            writer.WriteInt(amount); // The amount of clients online
+
+            for (int i = 0; i < amount; i++)
+            {
+                writer.WriteCommonString(users[i].Name);
+            }
             return writer.ToArray();
         }
 

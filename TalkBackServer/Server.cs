@@ -12,12 +12,12 @@ using TalkBackServer.Tools;
 
 namespace TalkBackServer
 {
-   
+
     class Server
     {
         private Socket _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private byte[] _buffer = new byte[10240];
-        public  Server()
+        public Server()
         {
             Database.DatabaseManager.Instance.InitDatabase();
             Console.WriteLine("Starting Server!");
@@ -55,7 +55,7 @@ namespace TalkBackServer
             }
             catch (Exception e)
             {
-               
+
             }
         }
 
@@ -87,6 +87,14 @@ namespace TalkBackServer
                         session.Shutdown(SocketShutdown.Both);
 
                         Console.WriteLine(session.RemoteEndPoint + " Has been disconnected");
+                        if (!string.IsNullOrEmpty(client.Name))
+                        {
+
+                            foreach (var c in ClientFactory.Instance.GetAllClients().Where(x => x != client))
+                            {
+                                c.Announce(PacketCreator.SendUserUpdate(client.Name, 2));
+                            }
+                        }
                         session = null;
                     }
                     return;

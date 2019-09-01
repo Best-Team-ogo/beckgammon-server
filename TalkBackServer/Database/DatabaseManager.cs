@@ -40,9 +40,10 @@ namespace TalkBackServer.Database
         {
           await  GetUserCollection().Find(x => x.name.ToLower() == "-1").FirstOrDefaultAsync();
         }
-        public async Task<bool> GetUser(string name, string pass)
+        public async Task<bool> GetUser(string username, string pass)
         {
-            User tmp = await GetUserCollection().Find(x => x.name.ToLower() == name.ToLower() && x.pass == pass).FirstOrDefaultAsync();
+
+            User tmp = await GetUserCollection().Find(x => x.username.ToLower() == username.ToLower() && x.pass == pass).FirstOrDefaultAsync();
             if (tmp == null)
                 return false;
             return true;

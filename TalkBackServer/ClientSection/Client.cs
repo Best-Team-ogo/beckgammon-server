@@ -24,7 +24,8 @@ namespace TalkBackServer.ClientSection
         }
         public bool Login(string name, string pass)
         {
-            if (Connected)
+            var tmpC = ClientFactory.Instance.GetAllClients().FirstOrDefault(x => x.Name == name);
+            if (tmpC != null)
                 return false;
             Name = name;
             Password = pass;
